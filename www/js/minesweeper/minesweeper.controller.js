@@ -17,11 +17,11 @@
     ) {
         var MinesweeperController = this;
 
-        MinesweeperController.DEFAULT_COLS = 5;
-        MinesweeperController.DEFAULT_ROWS = 5;
+        MinesweeperController.DEFAULT_COLS = 10;
+        MinesweeperController.DEFAULT_ROWS = 10;
 
-        MinesweeperController.MAX_COLS = 144;
-        MinesweeperController.MAX_ROWS = 144;
+        MinesweeperController.MAX_COLS = 48;
+        MinesweeperController.MAX_ROWS = 48;
 
         $scope.$watch(
             'minePercent',
