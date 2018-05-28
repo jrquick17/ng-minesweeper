@@ -105,7 +105,7 @@
 
                 cell.hasFlag = false;
                 cell.hasMine = Math.random() <= MinesweeperController.minePercent;
-                cell.isUnknown = true;
+                cell.isClear = false;
 
                 var col = i % MinesweeperController.cols;
                 var row = Math.floor(i / MinesweeperController.cols);
@@ -129,6 +129,23 @@
             }
         }
 
+        MinesweeperController.checkEnd = checkEnd;
+        function checkEnd() {
+            for (var i = 0; i < MinesweeperController.rows; i++) {
+                for (var j = 0; j < MinesweeperController.cols; j++) {
+                    if (!MinesweeperController.cells[i][j].isClear) {
+                        if (!MinesweeperController.cells[i][j].hasFlag) {
+                            return false;
+                        } else if (!MinesweeperController.cells[i][j].hasMine) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
         MinesweeperController.clearNeighbors = clearNeighbors;
         function clearNeighbors(cell) {
             var neighbors = MinesweeperController.getNeighbors(cell);
@@ -137,7 +154,7 @@
             for (var i = 0; i < neighborsCount; i++) {
                 var neighbor = neighbors[i];
 
-                if (neighbor.isUnknown && !neighbor.hasMine) {
+                if (!neighbor.isClear && !neighbor.hasMine) {
                     MinesweeperController.clearCell(neighbor);
                 }
             }
@@ -146,7 +163,7 @@
         MinesweeperController.clearCell = clearCell;
         function clearCell(cell) {
             if (!cell.hasFlag) {
-                cell.isUnknown = false;
+                cell.isClear = true;
 
                 if (!cell.hasMine) {
                     if (cell.touches === 0) {
@@ -162,6 +179,11 @@
                 MinesweeperController.clearCell(cell);
             } else if (event.which === 3) {
                 MinesweeperController.setFlag(cell);
+            }
+
+            var gameOver = MinesweeperController.checkEnd();
+            if (gameOver) {
+                alert('Good game.');
             }
         }
 
@@ -236,42 +258,70 @@
 
         MinesweeperController.getNeighborBottomLeft = getNeighborBottomLeft;
         function getNeighborBottomLeft(cell) {
-            return cell.col !== 0 && cell.row + 1 !== MinesweeperController.rows && MinesweeperController.cells[cell.row + 1][cell.col - 1];
+            if (cell.col !== 0 && cell.row + 1 !== MinesweeperController.rows) {
+                return MinesweeperController.cells[cell.row + 1][cell.col - 1];
+            }
+
+            return null;
         }
 
         MinesweeperController.getNeighborBottomRight = getNeighborBottomRight;
         function getNeighborBottomRight(cell) {
-            return cell.col + 1 !== MinesweeperController.cols && cell.row + 1 !== MinesweeperController.rows && MinesweeperController.cells[cell.row + 1][cell.col + 1];
+            if (cell.col + 1 !== MinesweeperController.cols && cell.row + 1 !== MinesweeperController.rows) {
+                return MinesweeperController.cells[cell.row + 1][cell.col + 1];
+            }
+
+            return null;
         }
 
         MinesweeperController.getNeighborLeft = getNeighborLeft;
         function getNeighborLeft(cell) {
-            return cell.col !== 0 && MinesweeperController.cells[cell.row][cell.col - 1];
+            if (cell.col !== 0) {
+                return MinesweeperController.cells[cell.row][cell.col - 1];
+            }
+
+            return null;
         }
 
         MinesweeperController.getNeighborRight = getNeighborRight;
         function getNeighborRight(cell) {
-            return cell.col + 1 !== MinesweeperController.cols && MinesweeperController.cells[cell.row][cell.col + 1];
+            if (cell.col + 1 !== MinesweeperController.cols) {
+                return MinesweeperController.cells[cell.row][cell.col + 1];
+            }
+
+            return null;
         }
 
         MinesweeperController.getNeighborTop = getNeighborTop;
         function getNeighborTop(cell) {
-            return cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col];
+            if (cell.row !== 0) {
+                return MinesweeperController.cells[cell.row - 1][cell.col];
+            }
+
+            return null;
         }
 
         MinesweeperController.getNeighborTopLeft = getNeighborTopLeft;
         function getNeighborTopLeft(cell) {
-            return cell.col !== 0 && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col - 1];
+            if (cell.col !== 0 && cell.row !== 0) {
+                return MinesweeperController.cells[cell.row - 1][cell.col - 1];
+            }
+
+            return null;
         }
 
         MinesweeperController.getNeighborTopRight = getNeighborTopRight;
         function getNeighborTopRight(cell) {
-            return cell.col + 1 !== MinesweeperController.cols && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col + 1];
+            if (cell.col + 1 !== MinesweeperController.cols && cell.row !== 0) {
+                return MinesweeperController.cells[cell.row - 1][cell.col + 1];
+            }
+
+            return null;
         }
         
         MinesweeperController.setFlag = setFlag;
         function setFlag(cell) {
-            if (cell.isUnknown) {
+            if (!cell.isClear) {
                 cell.hasFlag = !cell.hasFlag;
             }
         }
@@ -307,7 +357,7 @@
                 minePercent: '=',
                 rows:        '='
             },
-            template:'<div class="row" data-ng-repeat="cols in ctrl.cells"><div data-ng-repeat="cell in cols" class="col cell" data-ng-class="{ \'clear\': !cell.isUnknown && !cell.hasMine && cell.touches === 0, \'mine\': !cell.isUnknown && cell.hasMine, \'safe\': !cell.isUnknown && !cell.hasMine && cell.touches !== 0, \'flag\': cell.isUnknown && cell.hasFlag, \'unknown\': cell.isUnknown && !cell.hasFlag, \'touches-0\': cell.touches === 0, \'touches-1\': cell.touches === 1, \'touches-2\': cell.touches === 2, \'touches-3\': cell.touches === 3, \'touches-4\': cell.touches === 4, \'touches-5\': cell.touches === 5, \'touches-6\': cell.touches === 6, \'touches-7\': cell.touches === 7, \'touches-8\': cell.touches === 8 }" data-ng-mousedown="ctrl.click($event, cell)" oncontextmenu="return false"><p data-ng-if="cell.isUnknown">~</p><p data-ng-if="!cell.isUnknown">{{ cell.hasMine ? \'X\' : cell.touches }}</p></div></div>'
+            template:'<div class="row" data-ng-repeat="cols in ctrl.cells"><div data-ng-repeat="cell in cols" class="col cell" data-ng-class="{ \'clear\': cell.isClear && !cell.hasMine && cell.touches === 0, \'mine\': cell.isClear && cell.hasMine, \'safe\': cell.isClear && !cell.hasMine && cell.touches !== 0, \'flag\': !cell.isClear && cell.hasFlag, \'unknown\': !cell.isClear && !cell.hasFlag, \'touches-0\': cell.touches === 0, \'touches-1\': cell.touches === 1, \'touches-2\': cell.touches === 2, \'touches-3\': cell.touches === 3, \'touches-4\': cell.touches === 4, \'touches-5\': cell.touches === 5, \'touches-6\': cell.touches === 6, \'touches-7\': cell.touches === 7, \'touches-8\': cell.touches === 8 }" data-ng-mousedown="ctrl.click($event, cell)" oncontextmenu="return false"><p data-ng-if="!cell.isClear">~</p><p data-ng-if="cell.isClear">{{ cell.hasMine ? \'X\' : cell.touches }}</p></div></div>'
         };
     }
 })();

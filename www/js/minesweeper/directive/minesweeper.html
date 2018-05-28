@@ -3,11 +3,11 @@
     <div data-ng-repeat="cell in cols"
          class="col cell"
          data-ng-class="{
-                'clear':     !cell.isUnknown && !cell.hasMine && cell.touches === 0,
-                'mine':      !cell.isUnknown && cell.hasMine,
-                'safe':      !cell.isUnknown && !cell.hasMine && cell.touches !== 0,
-                'flag':      cell.isUnknown && cell.hasFlag,
-                'unknown':   cell.isUnknown && !cell.hasFlag,
+                'clear':     cell.isClear && !cell.hasMine && cell.touches === 0,
+                'mine':      cell.isClear && cell.hasMine,
+                'safe':      cell.isClear && !cell.hasMine && cell.touches !== 0,
+                'flag':      !cell.isClear && cell.hasFlag,
+                'unknown':   !cell.isClear && !cell.hasFlag,
                 'touches-0': cell.touches === 0,
                 'touches-1': cell.touches === 1,
                 'touches-2': cell.touches === 2,
@@ -20,10 +20,10 @@
              }"
          data-ng-mousedown="ctrl.click($event, cell)"
          oncontextmenu="return false">
-        <p data-ng-if="cell.isUnknown">
+        <p data-ng-if="!cell.isClear">
             ~
         </p>
-        <p data-ng-if="!cell.isUnknown">
+        <p data-ng-if="cell.isClear">
             {{ cell.hasMine ? 'X' : cell.touches }}
         </p>
     </div>
