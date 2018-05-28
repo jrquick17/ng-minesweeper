@@ -26,6 +26,8 @@
         MinesweeperController.MAX_COLS = 48;
         MinesweeperController.MAX_ROWS = 48;
 
+        MinesweeperController.mineCount = 0;
+
         $scope.$watch(
             'minePercent',
             function(minePercent) {
@@ -81,7 +83,12 @@
                     var cell = {};
 
                     cell.hasFlag = false;
+
                     cell.hasMine = Math.random() <= MinesweeperController.minePercent;
+                    if (cell.hasMine) {
+                        MinesweeperController.mineCount++;
+                    }
+
                     cell.isClear = false;
 
                     cell.col = j;
@@ -292,14 +299,20 @@
         
         MinesweeperController.setFlag = setFlag;
         function setFlag(cell) {
-            if (!cell.isClear) {
-                cell.hasFlag = !cell.hasFlag;
+            if (MinesweeperController.flagsUsed < MinesweeperController.mineCount) {
+                if (!cell.isClear) {
+                    cell.hasFlag = !cell.hasFlag;
+
+                    MinesweeperController.flagsUsed++;
+                }
+            } else {
+                alert('No more flags left.');
             }
         }
 
         MinesweeperController.reset = reset;
         function reset() {
-
+            MinesweeperController.flagsUsed = 0;
         }
 
         MinesweeperController.init = init;

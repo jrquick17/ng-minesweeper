@@ -23,9 +23,6 @@
              oncontextmenu="return false">
             <div class="dummy"></div>
             <div class="cell">
-                <div data-ng-if="!cell.isClear">
-                    ~
-                </div>
                 <div data-ng-if="cell.isClear">
                     {{ cell.hasMine ? 'X' : cell.touches }}
                 </div>
@@ -33,4 +30,3 @@
         </div>
     </div>
 </div>
-
