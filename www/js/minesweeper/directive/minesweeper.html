@@ -19,6 +19,11 @@
                 'touches-8': cell.touches === 8
              }"
          data-ng-click="ctrl.click(cell)">
-        {{ cell.hasMine ? 'X' : cell.touches }}
+        <p data-ng-if="cell.isUnknown">
+            ~
+        </p>
+        <p data-ng-if="!cell.isUnknown">
+            {{ cell.hasMine ? 'X' : cell.touches }}
+        </p>
     </div>
 </div>

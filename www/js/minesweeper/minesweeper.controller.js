@@ -175,7 +175,7 @@
 
                 var neighbor = MinesweeperController[neighborFunction](cell);
                 if (neighbor !== null) {
-                    neighbors.push(neighbor)
+                    neighbors.push(neighbor);
                 }
             }
 
@@ -223,7 +223,7 @@
 
         MinesweeperController.getNeighborTopRight = getNeighborTopRight;
         function getNeighborTopRight(cell) {
-            return cell.col + 1 !== MinesweeperController.cols && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col + 1]
+            return cell.col + 1 !== MinesweeperController.cols && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col + 1];
         }
 
         MinesweeperController.reset = reset;
