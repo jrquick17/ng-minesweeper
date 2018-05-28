@@ -48,5 +48,5 @@
   background-color: whitesmoke;
   box-shadow: inset 0 0 20px 3px silver; }
 
-.col {
+.board .row .col {
   border: solid 1px black; }

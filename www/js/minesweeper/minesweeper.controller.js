@@ -310,9 +310,16 @@
             }
         }
 
+        MinesweeperController.toggleSettings = toggleSettings;
+        function toggleSettings() {
+            MinesweeperController.showSettings = !MinesweeperController.showSettings;
+        }
+
         MinesweeperController.reset = reset;
         function reset() {
             MinesweeperController.flagsUsed = 0;
+
+            MinesweeperController.showSettings = false;
         }
 
         MinesweeperController.init = init;
