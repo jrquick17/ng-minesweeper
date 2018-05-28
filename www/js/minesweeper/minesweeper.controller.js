@@ -97,40 +97,44 @@
             }
         }
 
+        MinesweeperController.clearNeighbors = clearNeighbors;
+        function clearNeighbors(cell) {
+            var neighbors = MinesweeperController.getNeighbors(cell);
+            var neighborsCount = neighbors.length;
+
+            for (var i = 0; i < neighborsCount; i++) {
+                var neighbor = neighbors[i];
+
+                if (neighbor.isUnknown && !neighbor.hasMine) {
+                    MinesweeperController.click(neighbor);
+                }
+            }
+        }
+
         MinesweeperController.click = click;
         function click(cell) {
             cell.isUnknown = false;
+
+            if (!cell.hasMine) {
+                if (cell.touches === 0) {
+                    MinesweeperController.clearNeighbors(cell);
+                }
+            }
         }
 
         MinesweeperController.countTouches = countTouches;
         function countTouches(cell) {
-            var col = cell.col;
-            var row = cell.row;
-
             var touches = 0;
-            if (col !== 0 && MinesweeperController.cells[row][col - 1].hasMine) { // LEFT
-                touches++;
-            }
-            if (col + 1 !== MinesweeperController.cols && MinesweeperController.cells[row][col + 1].hasMine) { // RIGHT
-                touches++;
-            }
-            if (row !== 0 && MinesweeperController.cells[row - 1][col].hasMine) { // TOP
-                touches++;
-            }
-            if (row + 1 !== MinesweeperController.rows && MinesweeperController.cells[row + 1][col].hasMine) { // BOTTOM
-                touches++;
-            }
-            if (col !== 0 && row + 1 !== MinesweeperController.rows && MinesweeperController.cells[row + 1][col - 1].hasMine) { // BOTTOM LEFT
-                touches++;
-            }
-            if (col + 1 !== MinesweeperController.cols && row + 1 !== MinesweeperController.rows && MinesweeperController.cells[row + 1][col + 1].hasMine) { // BOTTOM RIGHT
-                touches++;
-            }
-            if (col !== 0 && row !== 0 && MinesweeperController.cells[row - 1][col - 1].hasMine) { // TOP LEFT
-                touches++;
-            }
-            if (col + 1 !== MinesweeperController.cols && row !== 0 && MinesweeperController.cells[row - 1][col + 1].hasMine) { // TOP RIGHT
-                touches++;
+
+            var neighbors = MinesweeperController.getNeighbors(cell);
+            var neighborCount = neighbors.length;
+
+            for (var i = 0; i < neighborCount; i++) {
+                var neighbor = neighbors[i];
+
+                if (neighbor.hasMine) {
+                    touches++;
+                }
             }
 
             return touches;
@@ -147,6 +151,79 @@
             }
 
             return value;
+        }
+
+        MinesweeperController.getNeighbors = getNeighbors;
+        function getNeighbors(cell) {
+            var neighbors = [];
+
+            var neighborFunctions = [
+                'getNeighborBottom',
+                'getNeighborBottomLeft',
+                'getNeighborBottomRight',
+                'getNeighborLeft',
+                'getNeighborRight',
+                'getNeighborTop',
+                'getNeighborTopLeft',
+                'getNeighborTopRight'
+            ];
+
+            var neighborFunctionsCount = neighborFunctions.length;
+
+            for (var i = 0; i < neighborFunctionsCount; i++) {
+                var neighborFunction = neighborFunctions[i];
+
+                var neighbor = MinesweeperController[neighborFunction](cell);
+                if (neighbor !== null) {
+                    neighbors.push(neighbor)
+                }
+            }
+
+            return neighbors;
+        }
+
+        MinesweeperController.getNeighborBottom = getNeighborBottom;
+        function getNeighborBottom(cell) {
+            if (cell.row + 1 !== MinesweeperController.rows) {
+                return MinesweeperController.cells[cell.row + 1][cell.col];
+            }
+
+            return null;
+        }
+
+        MinesweeperController.getNeighborBottomLeft = getNeighborBottomLeft;
+        function getNeighborBottomLeft(cell) {
+            return cell.col !== 0 && cell.row + 1 !== MinesweeperController.rows && MinesweeperController.cells[cell.row + 1][cell.col - 1];
+        }
+
+        MinesweeperController.getNeighborBottomRight = getNeighborBottomRight;
+        function getNeighborBottomRight(cell) {
+            return cell.col + 1 !== MinesweeperController.cols && cell.row + 1 !== MinesweeperController.rows && MinesweeperController.cells[cell.row + 1][cell.col + 1];
+        }
+
+        MinesweeperController.getNeighborLeft = getNeighborLeft;
+        function getNeighborLeft(cell) {
+            return cell.col !== 0 && MinesweeperController.cells[cell.row][cell.col - 1];
+        }
+
+        MinesweeperController.getNeighborRight = getNeighborRight;
+        function getNeighborRight(cell) {
+            return cell.col + 1 !== MinesweeperController.cols && MinesweeperController.cells[cell.row][cell.col + 1];
+        }
+
+        MinesweeperController.getNeighborTop = getNeighborTop;
+        function getNeighborTop(cell) {
+            return cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col];
+        }
+
+        MinesweeperController.getNeighborTopLeft = getNeighborTopLeft;
+        function getNeighborTopLeft(cell) {
+            return cell.col !== 0 && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col - 1];
+        }
+
+        MinesweeperController.getNeighborTopRight = getNeighborTopRight;
+        function getNeighborTopRight(cell) {
+            return cell.col + 1 !== MinesweeperController.cols && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col + 1]
         }
 
         MinesweeperController.reset = reset;
