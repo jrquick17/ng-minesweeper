@@ -18,7 +18,7 @@
         var MinesweeperController = this;
 
         MinesweeperController.DEFAULT_COLS = 10;
-        MinesweeperController.DEFAULT_ROWS = 10;
+        MinesweeperController.DEFAULT_ROWS = 6;
 
         MinesweeperController.MIN_COLS = 3;
         MinesweeperController.MIN_ROWS = 3;
@@ -31,7 +31,7 @@
             function(minePercent) {
                 MinesweeperController.minePercent = MinesweeperController.get(
                     minePercent,
-                    0.15
+                    0.12
                 );
             }
         );
@@ -74,31 +74,27 @@
         function buildBoard() {
             MinesweeperController.cells = [];
 
-            MinesweeperController.cellCount = MinesweeperController.cols * MinesweeperController.rows;
-            for (var i = 0; i < MinesweeperController.cellCount; i++) {
-                var cell = {};
+            for (var i = 0; i < MinesweeperController.rows; i++) {
+                MinesweeperController.cells[i] = [];
 
-                cell.hasFlag = false;
-                cell.hasMine = Math.random() <= MinesweeperController.minePercent;
-                cell.isClear = false;
+                for (var j = 0; j < MinesweeperController.cols; j++) {
+                    var cell = {};
 
-                var col = i % MinesweeperController.cols;
-                var row = Math.floor(i / MinesweeperController.cols);
+                    cell.hasFlag = false;
+                    cell.hasMine = Math.random() <= MinesweeperController.minePercent;
+                    cell.isClear = false;
 
-                cell.col = col;
-                cell.row = row;
+                    cell.col = j;
+                    cell.row = i;
 
-                if (col === 0) {
-                    MinesweeperController.cells[row] = [];
+                    MinesweeperController.cells[i][j] = cell;
                 }
-
-                MinesweeperController.cells[row][col] = cell;
             }
 
-            for (var j = 0; j < MinesweeperController.rows; j++) {
-                for (var k = 0; k < MinesweeperController.cols; k++) {
-                    MinesweeperController.cells[j][k].touches = MinesweeperController.countTouches(
-                        MinesweeperController.cells[j][k]
+            for (var k = 0; k < MinesweeperController.rows; k++) {
+                for (var l = 0; l < MinesweeperController.cols; l++) {
+                    MinesweeperController.cells[k][l].touches = MinesweeperController.countTouches(
+                        MinesweeperController.cells[k][l]
                     );
                 }
             }
