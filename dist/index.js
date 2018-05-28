@@ -52,6 +52,9 @@
         MinesweeperController.DEFAULT_COLS = 10;
         MinesweeperController.DEFAULT_ROWS = 10;
 
+        MinesweeperController.MIN_COLS = 3;
+        MinesweeperController.MIN_ROWS = 3;
+
         MinesweeperController.MAX_COLS = 48;
         MinesweeperController.MAX_ROWS = 48;
 
@@ -75,6 +78,8 @@
 
                 if (MinesweeperController.cols > MinesweeperController.MAX_COLS) {
                     MinesweeperController.cols = MinesweeperController.MAX_COLS;
+                } else if (MinesweeperController.cols < MinesweeperController.MIN_COLS) {
+                    MinesweeperController.cols = MinesweeperController.MIN_COLS;
                 }
             }
         );
@@ -87,8 +92,10 @@
                     MinesweeperController.DEFAULT_ROWS
                 );
 
-                if (MinesweeperController.cols > MinesweeperController.MAX_ROWS) {
-                    MinesweeperController.cols = MinesweeperController.MAX_ROWS;
+                if (MinesweeperController.rows > MinesweeperController.MAX_ROWS) {
+                    MinesweeperController.rows = MinesweeperController.MAX_ROWS;
+                } else if (MinesweeperController.rows < MinesweeperController.MIN_ROWS) {
+                    MinesweeperController.rows = MinesweeperController.MIN_ROWS;
                 }
 
                 MinesweeperController.buildBoard();
