@@ -18,7 +18,8 @@
                 'touches-7': cell.touches === 7,
                 'touches-8': cell.touches === 8
              }"
-         data-ng-click="ctrl.click(cell)">
+         data-ng-mousedown="ctrl.click($event, cell)"
+         oncontextmenu="return false">
         <p data-ng-if="cell.isUnknown">
             ~
         </p>

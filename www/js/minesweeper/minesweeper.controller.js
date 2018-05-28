@@ -106,19 +106,30 @@
                 var neighbor = neighbors[i];
 
                 if (neighbor.isUnknown && !neighbor.hasMine) {
-                    MinesweeperController.click(neighbor);
+                    MinesweeperController.clearCell(neighbor);
+                }
+            }
+        }
+
+        MinesweeperController.clearCell = clearCell;
+        function clearCell(cell) {
+            if (!cell.hasFlag) {
+                cell.isUnknown = false;
+
+                if (!cell.hasMine) {
+                    if (cell.touches === 0) {
+                        MinesweeperController.clearNeighbors(cell);
+                    }
                 }
             }
         }
 
         MinesweeperController.click = click;
-        function click(cell) {
-            cell.isUnknown = false;
-
-            if (!cell.hasMine) {
-                if (cell.touches === 0) {
-                    MinesweeperController.clearNeighbors(cell);
-                }
+        function click(event, cell) {
+            if (event.which === 1) {
+                MinesweeperController.clearCell(cell);
+            } else if (event.which === 3) {
+                MinesweeperController.setFlag(cell);
             }
         }
 
@@ -224,6 +235,13 @@
         MinesweeperController.getNeighborTopRight = getNeighborTopRight;
         function getNeighborTopRight(cell) {
             return cell.col + 1 !== MinesweeperController.cols && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col + 1];
+        }
+        
+        MinesweeperController.setFlag = setFlag;
+        function setFlag(cell) {
+            if (cell.isUnknown) {
+                cell.hasFlag = !cell.hasFlag;
+            }
         }
 
         MinesweeperController.reset = reset;

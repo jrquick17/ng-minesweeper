@@ -138,19 +138,30 @@
                 var neighbor = neighbors[i];
 
                 if (neighbor.isUnknown && !neighbor.hasMine) {
-                    MinesweeperController.click(neighbor);
+                    MinesweeperController.clearCell(neighbor);
+                }
+            }
+        }
+
+        MinesweeperController.clearCell = clearCell;
+        function clearCell(cell) {
+            if (!cell.hasFlag) {
+                cell.isUnknown = false;
+
+                if (!cell.hasMine) {
+                    if (cell.touches === 0) {
+                        MinesweeperController.clearNeighbors(cell);
+                    }
                 }
             }
         }
 
         MinesweeperController.click = click;
-        function click(cell) {
-            cell.isUnknown = false;
-
-            if (!cell.hasMine) {
-                if (cell.touches === 0) {
-                    MinesweeperController.clearNeighbors(cell);
-                }
+        function click(event, cell) {
+            if (event.which === 1) {
+                MinesweeperController.clearCell(cell);
+            } else if (event.which === 3) {
+                MinesweeperController.setFlag(cell);
             }
         }
 
@@ -257,6 +268,13 @@
         function getNeighborTopRight(cell) {
             return cell.col + 1 !== MinesweeperController.cols && cell.row !== 0 && MinesweeperController.cells[cell.row - 1][cell.col + 1];
         }
+        
+        MinesweeperController.setFlag = setFlag;
+        function setFlag(cell) {
+            if (cell.isUnknown) {
+                cell.hasFlag = !cell.hasFlag;
+            }
+        }
 
         MinesweeperController.reset = reset;
         function reset() {
@@ -289,7 +307,7 @@
                 minePercent: '=',
                 rows:        '='
             },
-            template:'<div class="row" data-ng-repeat="cols in ctrl.cells"><div data-ng-repeat="cell in cols" class="col cell" data-ng-class="{ \'clear\': !cell.isUnknown && !cell.hasMine && cell.touches === 0, \'mine\': !cell.isUnknown && cell.hasMine, \'safe\': !cell.isUnknown && !cell.hasMine && cell.touches !== 0, \'flag\': cell.isUnknown && cell.hasFlag, \'unknown\': cell.isUnknown && !cell.hasFlag, \'touches-0\': cell.touches === 0, \'touches-1\': cell.touches === 1, \'touches-2\': cell.touches === 2, \'touches-3\': cell.touches === 3, \'touches-4\': cell.touches === 4, \'touches-5\': cell.touches === 5, \'touches-6\': cell.touches === 6, \'touches-7\': cell.touches === 7, \'touches-8\': cell.touches === 8 }" data-ng-click="ctrl.click(cell)"><p data-ng-if="cell.isUnknown">~</p><p data-ng-if="!cell.isUnknown">{{ cell.hasMine ? \'X\' : cell.touches }}</p></div></div>'
+            template:'<div class="row" data-ng-repeat="cols in ctrl.cells"><div data-ng-repeat="cell in cols" class="col cell" data-ng-class="{ \'clear\': !cell.isUnknown && !cell.hasMine && cell.touches === 0, \'mine\': !cell.isUnknown && cell.hasMine, \'safe\': !cell.isUnknown && !cell.hasMine && cell.touches !== 0, \'flag\': cell.isUnknown && cell.hasFlag, \'unknown\': cell.isUnknown && !cell.hasFlag, \'touches-0\': cell.touches === 0, \'touches-1\': cell.touches === 1, \'touches-2\': cell.touches === 2, \'touches-3\': cell.touches === 3, \'touches-4\': cell.touches === 4, \'touches-5\': cell.touches === 5, \'touches-6\': cell.touches === 6, \'touches-7\': cell.touches === 7, \'touches-8\': cell.touches === 8 }" data-ng-mousedown="ctrl.click($event, cell)" oncontextmenu="return false"><p data-ng-if="cell.isUnknown">~</p><p data-ng-if="!cell.isUnknown">{{ cell.hasMine ? \'X\' : cell.touches }}</p></div></div>'
         };
     }
 })();
