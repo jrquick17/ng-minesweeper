@@ -1,7 +1,7 @@
-<div class="row"
-     data-ng-repeat="cols in ctrl.cells">
+<div class="row no-gutters"
+     data-ng-repeat="cols in ctrl.cells">px-0
     <div data-ng-repeat="cell in cols"
-         class="col cell"
+         class="col"
          data-ng-class="{
                 'clear':     cell.isClear && !cell.hasMine && cell.touches === 0,
                 'mine':      cell.isClear && cell.hasMine,
@@ -20,11 +20,14 @@
              }"
          data-ng-mousedown="ctrl.click($event, cell)"
          oncontextmenu="return false">
-        <p data-ng-if="!cell.isClear">
-            ~
-        </p>
-        <p data-ng-if="cell.isClear">
-            {{ cell.hasMine ? 'X' : cell.touches }}
-        </p>
+        <div class="dummy"></div>
+        <div class="cell">
+            <p data-ng-if="!cell.isClear">
+                ~
+            </p>
+            <p data-ng-if="cell.isClear">
+                {{ cell.hasMine ? 'X' : cell.touches }}
+            </p>
+        </div>
     </div>
 </div>

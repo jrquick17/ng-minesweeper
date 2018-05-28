@@ -1,18 +1,37 @@
-// Game
-.mine
-    background-color: red
+// Layout
+.dummy
+  margin-top: 100%
 
+// Cells
 .cell
-  overflow: hidden
+  overflow:    hidden
+  position:    absolute
+  top:         15px
+  bottom:      0
+  left:        15px
+  right:       0
+  text-align:  center
+  padding-top: calc(50% - 30px)
 
 .clear
-    background-color: lightslategray
+  background-color: lightslategray
+  box-shadow:       inset 0 0 20px 3px darkgray
 
 .flag
-    background-color: yellow
+  background-color: yellow
+  box-shadow:       inset 0 0 20px 3px goldenrod
+
+.mine
+  background-color: red
+  box-shadow:       inset 0 0 20px 3px crimson
 
 .safe
-    background-color: green
+  background-color: green
+  box-shadow:       inset 0 0 20px 3px darkgreen
 
 .unknown
-    background-color: whitesmoke
+  background-color: whitesmoke
+  box-shadow:       inset 0 0 20px 3px silver
+
+.col
+  border: solid 1px black
