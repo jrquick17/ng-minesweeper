@@ -1,0 +1,17 @@
+.mine {
+  background-color: red; }
+
+.cell {
+  overflow: hidden; }
+
+.clear {
+  background-color: lightslategray; }
+
+.flag {
+  background-color: yellow; }
+
+.safe {
+  background-color: green; }
+
+.unknown {
+  background-color: whitesmoke; }
