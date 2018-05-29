@@ -45,12 +45,6 @@
                     cols,
                     MinesweeperController.DEFAULT_COLS
                 );
-
-                if (MinesweeperController.cols > MinesweeperController.MAX_COLS) {
-                    MinesweeperController.cols = MinesweeperController.MAX_COLS;
-                } else if (MinesweeperController.cols < MinesweeperController.MIN_COLS) {
-                    MinesweeperController.cols = MinesweeperController.MIN_COLS;
-                }
             }
         );
 
@@ -62,18 +56,24 @@
                     MinesweeperController.DEFAULT_ROWS
                 );
 
-                if (MinesweeperController.rows > MinesweeperController.MAX_ROWS) {
-                    MinesweeperController.rows = MinesweeperController.MAX_ROWS;
-                } else if (MinesweeperController.rows < MinesweeperController.MIN_ROWS) {
-                    MinesweeperController.rows = MinesweeperController.MIN_ROWS;
-                }
-
                 MinesweeperController.buildBoard();
+            }
+        );
+
+        $scope.$watch(
+            'unlimitedFlags',
+            function(unlimitedFlags) {
+                MinesweeperController.unlimitedFlags = MinesweeperController.get(
+                    unlimitedFlags,
+                    false
+                );
             }
         );
 
         MinesweeperController.buildBoard = buildBoard;
         function buildBoard() {
+            MinesweeperController.checkColsAndRows();
+
             MinesweeperController.cells = [];
 
             for (var i = 0; i < MinesweeperController.rows; i++) {
@@ -104,6 +104,21 @@
                         MinesweeperController.cells[k][l]
                     );
                 }
+            }
+        }
+
+        MinesweeperController.checkColsAndRows = checkColsAndRows;
+        function checkColsAndRows() {
+            if (MinesweeperController.cols > MinesweeperController.MAX_COLS) {
+                MinesweeperController.cols = MinesweeperController.MAX_COLS;
+            } else if (MinesweeperController.cols < MinesweeperController.MIN_COLS) {
+                MinesweeperController.cols = MinesweeperController.MIN_COLS;
+            }
+
+            if (MinesweeperController.rows > MinesweeperController.MAX_ROWS) {
+                MinesweeperController.rows = MinesweeperController.MAX_ROWS;
+            } else if (MinesweeperController.rows < MinesweeperController.MIN_ROWS) {
+                MinesweeperController.rows = MinesweeperController.MIN_ROWS;
             }
         }
 
@@ -318,7 +333,7 @@
 
         MinesweeperController.setFlag = setFlag;
         function setFlag(cell) {
-            if (MinesweeperController.flagsUsed < MinesweeperController.mineCount) {
+            if (MinesweeperController.unlimitedFlags || MinesweeperController.flagsUsed < MinesweeperController.mineCount) {
                 if (!cell.isClear) {
                     if (cell.hasFlag) {
                         cell.hasFlag = false;
@@ -359,6 +374,8 @@
             MinesweeperController.gameover = false;
 
             MinesweeperController.message = '';
+
+            MinesweeperController.mustRestart = false;
 
             MinesweeperController.showSettings = false;
 

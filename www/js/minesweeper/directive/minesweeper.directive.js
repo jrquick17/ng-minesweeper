@@ -12,9 +12,10 @@
             controllerAs: 'ctrl',
             restrict:     'E',
             scope:        {
-                cols:        '=',
-                minePercent: '=',
-                rows:        '='
+                cols:           '=',
+                minePercent:    '=',
+                rows:           '=',
+                unlimitedFlags: '='
             },
             templateUrl:  'minesweeper.html'
         };

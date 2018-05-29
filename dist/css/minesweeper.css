@@ -2,7 +2,9 @@
   margin-top: 100%; }
 
 .global-wrapper {
-  min-width: 500px; }
+  min-width: 500px;
+  max-width: 750px;
+  padding: 10px; }
 
 .board .gameover {
   -webkit-filter: blur(1px);
@@ -10,6 +12,11 @@
   -o-filter: blur(1px);
   -ms-filter: blur(1px);
   filter: blur(1px); }
+
+.title-bar {
+  margin-bottom: 10px;
+  box-shadow: 0 6px 14px -7px #001d9e;
+  padding: 8px; }
 
 .cell {
   overflow: hidden;
