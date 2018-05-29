@@ -315,9 +315,15 @@
         function setFlag(cell) {
             if (MinesweeperController.flagsUsed < MinesweeperController.mineCount) {
                 if (!cell.isClear) {
-                    cell.hasFlag = !cell.hasFlag;
+                    if (cell.hasFlag) {
+                        cell.hasFlag = false;
 
-                    MinesweeperController.flagsUsed++;
+                        MinesweeperController.flagsUsed--;
+                    } else {
+                        cell.hasFlag = true;
+
+                        MinesweeperController.flagsUsed++;
+                    }
                 }
             } else {
                 alert('No more flags left.');
