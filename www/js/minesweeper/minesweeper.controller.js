@@ -296,7 +296,13 @@
 
             return null;
         }
-        
+
+        MinesweeperController.restart = restart;
+        function restart() {
+            MinesweeperController.reset();
+            MinesweeperController.buildBoard();
+        }
+
         MinesweeperController.setFlag = setFlag;
         function setFlag(cell) {
             if (MinesweeperController.flagsUsed < MinesweeperController.mineCount) {
