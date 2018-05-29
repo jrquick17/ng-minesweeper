@@ -143,7 +143,11 @@
             if (!cell.hasFlag) {
                 cell.isClear = true;
 
-                if (!cell.hasMine) {
+                if (cell.hasMine) {
+                    alert('BOOM!');
+
+                    MinesweeperController.gameover = true;
+                } else {
                     if (cell.touches === 0) {
                         MinesweeperController.clearNeighbors(cell);
                     }
@@ -153,15 +157,19 @@
 
         MinesweeperController.click = click;
         function click(event, cell) {
-            if (event.which === 1) {
-                MinesweeperController.clearCell(cell);
-            } else if (event.which === 3) {
-                MinesweeperController.setFlag(cell);
-            }
+            if (!MinesweeperController.gameover) {
+                if (event.which === 1) {
+                    MinesweeperController.clearCell(cell);
+                } else if (event.which === 3) {
+                    MinesweeperController.setFlag(cell);
+                }
 
-            var gameOver = MinesweeperController.checkEnd();
-            if (gameOver) {
-                alert('Good game.');
+                var gameOver = MinesweeperController.checkEnd();
+                if (gameOver) {
+                    alert('Good game.');
+
+                    MinesweeperController.gameover = true;
+                }
             }
         }
 
@@ -324,6 +332,8 @@
         MinesweeperController.reset = reset;
         function reset() {
             MinesweeperController.flagsUsed = 0;
+
+            MinesweeperController.gameover = false;
 
             MinesweeperController.showSettings = false;
         }
