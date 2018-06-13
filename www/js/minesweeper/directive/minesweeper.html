@@ -51,7 +51,10 @@
                         'touches-7': cell.touches === 7,
                         'touches-8': cell.touches === 8
                      }"
-                 data-ng-mousedown="ctrl.click($event, cell)"
+                 on-long-press="ctrl.setFlag(cell)"
+                 prevent-click="true"
+                 data-ng-click="ctrl.click($event, cell)"
+                 data-ng-mousedown="ctrl.rightClick($event, cell)"
                  oncontextmenu="return false">
                 <div class="dummy"></div>
                 <div class="cell">

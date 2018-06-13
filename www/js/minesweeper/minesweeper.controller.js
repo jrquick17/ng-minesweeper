@@ -172,18 +172,34 @@
 
         MinesweeperController.click = click;
         function click(event, cell) {
-            if (!MinesweeperController.gameover) {
-                if (event.which === 1) {
+            if (event.which === 3) {
+                MinesweeperController.rightClick(event, cell);
+            } else if (event.which === 1) {
+                MinesweeperController.leftClick(event, cell);
+            }
+        }
+
+        MinesweeperController.leftClick = leftClick;
+        function leftClick(event, cell) {
+            if (event.which === 1) {
+                if (!MinesweeperController.gameover) {
                     MinesweeperController.clearCell(cell);
-                } else if (event.which === 3) {
-                    MinesweeperController.setFlag(cell);
+
+                    var gameOver = MinesweeperController.checkEnd();
+                    if (gameOver) {
+                        MinesweeperController.showMessage('Good game.', 'Game Over');
+
+                        MinesweeperController.gameover = true;
+                    }
                 }
+            }
+        }
 
-                var gameOver = MinesweeperController.checkEnd();
-                if (gameOver) {
-                    MinesweeperController.showMessage('Good game.', 'Game Over');
-
-                    MinesweeperController.gameover = true;
+        MinesweeperController.rightClick = rightClick;
+        function rightClick(event, cell) {
+            if (event.which === 3) {
+                if (!MinesweeperController.gameover) {
+                    MinesweeperController.setFlag(cell);
                 }
             }
         }
@@ -333,17 +349,15 @@
 
         MinesweeperController.setFlag = setFlag;
         function setFlag(cell) {
-            if (MinesweeperController.unlimitedFlags || MinesweeperController.flagsUsed < MinesweeperController.mineCount) {
+            if (!cell.isClear && cell.hasFlag) {
+                cell.hasFlag = false;
+
+                MinesweeperController.flagsUsed--;
+            } else if (MinesweeperController.unlimitedFlags || MinesweeperController.flagsUsed < MinesweeperController.mineCount) {
                 if (!cell.isClear) {
-                    if (cell.hasFlag) {
-                        cell.hasFlag = false;
+                    cell.hasFlag = true;
 
-                        MinesweeperController.flagsUsed--;
-                    } else {
-                        cell.hasFlag = true;
-
-                        MinesweeperController.flagsUsed++;
-                    }
+                    MinesweeperController.flagsUsed++;
                 }
             } else {
                 MinesweeperController.showMessage('No more flags left.');
