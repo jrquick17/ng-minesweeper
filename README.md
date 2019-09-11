@@ -10,6 +10,8 @@
 
 ## About
 
+AngularJS implementation of the classic Minesweeper game.
+
 * Visit [my website](https://jrquick.com) for me cool stuff!
 
 ## Demo
