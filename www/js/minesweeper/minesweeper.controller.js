@@ -396,11 +396,6 @@
             MinesweeperController.title = '';
         }
 
-        MinesweeperController.init = init;
-        function init() {
-            MinesweeperController.reset();
-        }
-
-        MinesweeperController.init();
+        MinesweeperController.reset();
     }
 })();
