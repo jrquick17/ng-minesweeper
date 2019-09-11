@@ -1,5 +1,5 @@
 {
-  "name": "minesweeper",
+  "name": "ng-minesweeper",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jrquick17/minesweeper.git"
+    "url": "git+https://github.com/jrquick17/ng-minesweeper.git"
   },
   "author": "Jeremy Quick <jrquick17@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jrquick17/minesweeper/issues"
+    "url": "https://github.com/jrquick17/ng-minesweeper/issues"
   },
-  "homepage": "https://github.com/jrquick17/minesweeper#readme",
+  "homepage": "https://github.com/jrquick17/ng-minesweeper#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babelify": "^8.0.0",
