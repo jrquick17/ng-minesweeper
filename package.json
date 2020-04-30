@@ -37,7 +37,7 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "angular": "^1.7.1",
+    "angular": "^1.7.9",
     "angular-long-press": "^0.3.2",
     "jquery": "^3.5.0",
     "octicons": "^7.3.0"
