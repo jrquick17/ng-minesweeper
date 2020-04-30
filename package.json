@@ -39,7 +39,7 @@
   "dependencies": {
     "angular": "^1.7.1",
     "angular-long-press": "^0.3.2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "octicons": "^7.3.0"
   }
 }
