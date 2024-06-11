@@ -23,7 +23,7 @@
     "browserify": "^16.2.2",
     "browserify-resolutions": "^1.1.0",
     "buffer": "^5.1.0",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-angular-embed-templates": "^2.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-jshint": "^2.1.0",
